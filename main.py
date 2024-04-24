@@ -88,6 +88,8 @@ for r in range(rows):
 
 #print('_'*cols)
 
+"""
+
 # Extract x and y coordinates from the points
 x_values = [point[0] for point in points]
 y_values = [point[1] for point in points]
@@ -113,5 +115,5 @@ plt.ylabel('Y')
 plt.title('Plot of Points')
 plt.grid(True)
 plt.show()
-
+"""
 
