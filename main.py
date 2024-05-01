@@ -65,22 +65,22 @@ with open(file_path, 'w') as f:
         f.write('\n')
     
 #Convert to black and white
-black_and_white = np.empty((rows, cols), dtype=np.uint8)
-#for r in range(rows):
- #   for c in range(cols):
-  #      black_and_white[r, c]=.3*output[r,c,0]+.59*output[r,c,1]+.11*output[r,c,2]
+black_and_white = np.empty((rows*x_frames, cols*y_frames), dtype=np.uint8)
+for r in range(rows*x_frames):
+    for c in range(cols*y_frames):
+        black_and_white[r, c]=.3*output[r,c,0]+.59*output[r,c,1]+.11*output[r,c,2]
    #     print(black_and_white[r,c] ,end= ' ')
     #print()
 
-points=[(0,0)]*rows*cols
+points=[(0,0)]*rows*cols*x_frames*y_frames
 n_points=0
 
 #print('_'*cols)
-for r in range(rows):
-    for c in range(cols):
-        if (black_and_white[r, c] <  100):
+for r in range(rows*x_frames):
+    for c in range(cols*y_frames):
+        if (black_and_white[r, c] <  75):
       #      print('.' ,end='')
-            points[n_points]=[c,r]
+            points[n_points]=[r,c]
             n_points=n_points+1
         #else:
             #print(' ',end='')
@@ -88,11 +88,11 @@ for r in range(rows):
 
 #print('_'*cols)
 
-"""
+
 
 # Extract x and y coordinates from the points
-x_values = [point[0] for point in points]
-y_values = [point[1] for point in points]
+y_values = [-point[0]+rows*x_frames for point in points]
+x_values = [point[1] for point in points]
 
 # Plot the points
 plt.scatter(x_values, y_values)
@@ -102,11 +102,13 @@ plt.title('Plot of Points')
 plt.grid(True)
 plt.show()
 
-new_points=rdp(points,.3)
+
+
+new_points=rdp(points[10:],2)
 
 # Extract x and y coordinates from the points
-new_x_values = [point[0] for point in new_points]
-new_y_values = [point[1] for point in new_points]
+new_y_values = [-point[0]+rows*x_frames for point in new_points]
+new_x_values = [point[1] for point in new_points]
 
 # Plot the points
 plt.scatter(new_x_values, new_y_values)
@@ -115,5 +117,12 @@ plt.ylabel('Y')
 plt.title('Plot of Points')
 plt.grid(True)
 plt.show()
-"""
+
+# File path
+file_path = "points.txt"
+
+# Write data to the text file
+with open(file_path, 'w') as file:
+    for x, y in zip(new_x_values, new_y_values):
+        file.write(f"{x} {y}\n")
 
