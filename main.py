@@ -79,7 +79,8 @@ n_points=0
 for r in range(rows*x_frames):
     for c in range(cols*y_frames):
         if (black_and_white[r, c] <  75):
-      #      print('.' ,end='')
+      #      print('.' ,end='') 
+            # Cuttoff bad camera pixels
             points[n_points]=[r,c]
             n_points=n_points+1
         #else:
@@ -91,8 +92,8 @@ for r in range(rows*x_frames):
 
 
 # Extract x and y coordinates from the points
-y_values = [-point[0]+rows*x_frames for point in points]
-x_values = [point[1] for point in points]
+y_values = [-point[0]+rows*x_frames for point in points[:n_points]]
+x_values = [point[1] for point in points[:n_points]]
 
 # Plot the points
 plt.scatter(x_values, y_values)
@@ -104,11 +105,12 @@ plt.show()
 
 
 
-new_points=rdp(points[10:],2)
+new_points=rdp(points,2)
 
 # Extract x and y coordinates from the points
-new_y_values = [-point[0]+rows*x_frames for point in new_points]
-new_x_values = [point[1] for point in new_points]
+new_y_values = [-point[0]+rows*x_frames for point in new_points[:n_points]]
+new_x_values = [point[1] for point in new_points[:n_points]]
+
 
 # Plot the points
 plt.scatter(new_x_values, new_y_values)
